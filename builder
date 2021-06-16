@@ -28,18 +28,18 @@
 # limitations under the License.
 
 # Git repository of Clickhouse
-CH_REPO="${CH_REPO:-https://github.com/ClickHouse/ClickHouse}"
+CH_REPO="${CH_REPO:-git@git.envisioncn.com:arch/ClickHouse.git}"
 
 # Git version of ClickHouse that we package
-CH_VERSION="${CH_VERSION:-20.8.12.2}"
+CH_VERSION="${CH_VERSION:-21.4.3.21-edh}"
 
 # Fill if some commits need to be cherry-picked before build
 #CH_EXTRA_COMMITS=( 54a5b801b708701b1ddbda95887465b9f7ae5740 )
 CH_EXTRA_COMMITS=()
 
 # Git tag marker (stable/testing)
-CH_TAG="${CH_TAG:-lts}"
-#CH_TAG="${CH_TAG:-stable}"
+#CH_TAG="${CH_TAG:-lts}"
+CH_TAG="${CH_TAG:-stable}"
 #CH_TAG="${CH_TAG:-testing}"
 
 # Hostname of the server used to publish packages
@@ -286,7 +286,7 @@ function download_sources()
 	rm -rf "$SOURCES_DIR"/ClickHouse*
 
 	echo "Download sources"
-	echo "Clone from github v${CH_VERSION}-${CH_TAG} into $SOURCES_DIR/ClickHouse-${CH_VERSION}-${CH_TAG}"
+	echo "Clone from gitlab v${CH_VERSION}-${CH_TAG} into $SOURCES_DIR/ClickHouse-${CH_VERSION}-${CH_TAG}"
 
 	cd "$SOURCES_DIR"
 
@@ -298,7 +298,7 @@ function download_sources()
 	cd "ClickHouse-${CH_VERSION}-${CH_TAG}"
 
 	echo "Checkout specific tag v${CH_VERSION}-${CH_TAG}"
-	git checkout "v${CH_VERSION}-${CH_TAG}"
+	git checkout "2021-09-30"
 
 	for commit in "${CH_EXTRA_COMMITS[@]}"; do
 		echo "Cherry-pick commit $commit"
