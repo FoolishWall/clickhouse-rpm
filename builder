@@ -280,33 +280,36 @@ function prepare_sources()
 function download_sources()
 {
 	banner "Ensure SOURCES dir is in place"
-	mkdirs
+  mkdirs
+  if [[ $(ls "$SOURCES_DIR") ]]; then
+    echo "Sources available"
+  else
+	  echo "Clean sources dir as rm -rf '$SOURCES_DIR/ClickHouse*'"
+	  rm -rf "$SOURCES_DIR"/ClickHouse*
 
-	echo "Clean sources dir as rm -rf '$SOURCES_DIR/ClickHouse*'"
-	rm -rf "$SOURCES_DIR"/ClickHouse*
+	  echo "Download sources"
+	  echo "Clone from gitlab v${CH_VERSION}-${CH_TAG} into $SOURCES_DIR/ClickHouse-${CH_VERSION}-${CH_TAG}"
 
-	echo "Download sources"
-	echo "Clone from gitlab v${CH_VERSION}-${CH_TAG} into $SOURCES_DIR/ClickHouse-${CH_VERSION}-${CH_TAG}"
+	  cd "$SOURCES_DIR"
 
-	cd "$SOURCES_DIR"
+	  # Go older way because older versions of git (CentOS 6.9, for example) do not understand new syntax of branches etc
+	  # Clone specified branch with all submodules into $SOURCES_DIR/ClickHouse-$CH_VERSION-$CH_TAG folder
+	  echo "Clone ClickHouse repo"
+	  git clone "${CH_REPO}" "ClickHouse-${CH_VERSION}-${CH_TAG}"
 
-	# Go older way because older versions of git (CentOS 6.9, for example) do not understand new syntax of branches etc
-	# Clone specified branch with all submodules into $SOURCES_DIR/ClickHouse-$CH_VERSION-$CH_TAG folder
-	echo "Clone ClickHouse repo"
-	git clone "${CH_REPO}" "ClickHouse-${CH_VERSION}-${CH_TAG}"
+	  cd "ClickHouse-${CH_VERSION}-${CH_TAG}"
 
-	cd "ClickHouse-${CH_VERSION}-${CH_TAG}"
+	  echo "Checkout specific tag v${CH_VERSION}-${CH_TAG}"
+	  git checkout "2021-09-30"
 
-	echo "Checkout specific tag v${CH_VERSION}-${CH_TAG}"
-	git checkout "2021-09-30"
+	  for commit in "${CH_EXTRA_COMMITS[@]}"; do
+		  echo "Cherry-pick commit $commit"
+		  git cherry-pick $commit
+	  done
 
-	for commit in "${CH_EXTRA_COMMITS[@]}"; do
-		echo "Cherry-pick commit $commit"
-		git cherry-pick $commit
-	done
-
-	echo "Update submodules"
-	git submodule update --init --recursive
+	  echo "Update submodules"
+	  git submodule update --init --recursive
+  fi
 
 	echo "Sources downloaded"
 }
