@@ -183,41 +183,10 @@ echo "********"
 echo "* MAKE *"
 echo "********"
 
-if [ "${FLAG_DEBUGINFO}" == "yes" ]; then
-	if [ ! -z "${FLAG_CMAKE_BUILD_TYPE}" ]; then
-		# Explicitly specified --cmake-build-type
-		CMAKE_BUILD_TYPE="${FLAG_CMAKE_BUILD_TYPE}"
-	else
-		# --cmake-build-typw not specified, use default value
-		CMAKE_BUILD_TYPE="RelWithDebInfo"
-	fi
-else
-	# No debuginfo requested
-	CMAKE_BUILD_TYPE="Release"
-fi
-echo "CMAKE_BUILD_TYPE==${CMAKE_BUILD_TYPE}"
-
-if [ ! -z $USE_NINJA_BUILD ]; then
-	# use ninja-build
-	$CMAKE .. -G Ninja -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE:STRING="${CMAKE_BUILD_TYPE}" @CMAKE_OPTIONS@
-	ninja-build @MAKE_OPTIONS@
-else
-	# use original cmake
-	$CMAKE .. -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE:STRING="${CMAKE_BUILD_TYPE}" @CMAKE_OPTIONS@
-	make %{?_smp_mflags} @MAKE_OPTIONS@
-fi
-
-MAKE_EXIT_CODE=$?
-
-echo "make reported exit code ${MAKE_EXIT_CODE}"
-
-if [ "${TEST_BINARIES}" == "yes" ]; then
-	echo "Running test"
-	set +e
-	bash -c "ctest3 -j8"
-	CTEST_EXIT_CODE=$?
-	echo "ctest reported exit code ${CTEST_EXIT_CODE}"
-fi
+export CC=clang-12
+export CXX=clang++
+cmake -DCMAKE_BUILD_TYPE="Release" ../
+ninja clickhouse >/tmp/build_logs 2>&1 &
 
 cd ..
 

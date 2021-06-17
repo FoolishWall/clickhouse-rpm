@@ -177,21 +177,14 @@ function install_build_process_dependencies()
 
 	if os_centos; then
 		sudo yum install -y epel-release
-		sudo yum install -y cmake3
-		if [ ! -z $USE_NINJA_BUILD ]; then
-			# use ninja-build
-			sudo yum install -y ninja-build
-		fi
-
 		sudo yum install -y centos-release-scl
 		sudo yum install -y devtoolset-"${DEVTOOLSET_VERSION}"
 	elif os_ol; then
 		sudo yum install -y scl-utils
 		sudo yum install -y devtoolset-"${DEVTOOLSET_VERSION}"
-		sudo yum install -y cmake3
 	else
 		# fedora
-		sudo yum install -y gcc-c++ libstdc++-static cmake
+		sudo yum install -y libstdc++-static
 	fi
 
 	banner "Install CH dev dependencies"
