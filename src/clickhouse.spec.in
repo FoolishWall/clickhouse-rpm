@@ -186,7 +186,7 @@ echo "********"
 export CC=clang-12
 export CXX=clang++
 cmake -DCMAKE_BUILD_TYPE="Release" ../
-ninja clickhouse >/tmp/build_logs 2>&1 &
+ninja clickhouse
 
 cd ..
 
