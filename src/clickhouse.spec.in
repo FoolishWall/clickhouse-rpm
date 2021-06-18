@@ -262,12 +262,13 @@ echo "'clean' completed."
 ##
 
 %files client
-/usr/bin/clickhouse-client
-/usr/bin/clickhouse-local
-/usr/bin/clickhouse-compressor
-/usr/bin/clickhouse-benchmark
-%config(noreplace) /etc/clickhouse-client/config.xml
-/usr/bin/clickhouse-extract-from-config
+/usr/local/bin/clickhouse
+#/usr/bin/clickhouse-client
+#/usr/bin/clickhouse-local
+#/usr/bin/clickhouse-compressor
+#/usr/bin/clickhouse-benchmark
+%config(noreplace) /usr/local/etc/clickhouse-client/config.xml
+#/usr/bin/clickhouse-extract-from-config
 
 %post client
 # include/source spec functions
@@ -285,7 +286,7 @@ chown -R ${CLICKHOUSE_USER}:${CLICKHOUSE_GROUP} /etc/clickhouse-client || true
 ##
 
 %files common-static
-/usr/bin/clickhouse
+/usr/local/bin/clickhouse
 %config(noreplace) /etc/security/limits.d/clickhouse.conf
 # folder
 /usr/share/clickhouse
@@ -295,8 +296,8 @@ chown -R ${CLICKHOUSE_USER}:${CLICKHOUSE_GROUP} /etc/clickhouse-client || true
 ##
 
 %files server-common
-%config(noreplace) /etc/clickhouse-server/config.xml
-%config(noreplace) /etc/clickhouse-server/users.xml
+%config(noreplace) /usr/local/etc/clickhouse-server/config.xml
+%config(noreplace) /usr/local/etc/clickhouse-server/users.xml
 
 ##
 ## server package
