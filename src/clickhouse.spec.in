@@ -203,41 +203,41 @@ echo "'install' started."
 #read -p "'install' started. Press enter to continue"
 
 # %{buildroot} = rpmbuild/BUILDROOT/clickhouse-18.14.15-1.el7.x86_64
-rm -rf %{buildroot}
+#rm -rf %{buildroot}
 
 # Jump into rpmbuild/BUILD/ClickHouse-%{version}-@CH_TAG@ folder now
 cd "${BUILD_DIR}"
 cd ClickHouse-%{version}-@CH_TAG@
 
 cd build
-DAEMONS="clickhouse clickhouse-test clickhouse-compressor clickhouse-client clickhouse-server"
-for daemon in $DAEMONS; do
-	DESTDIR=%{buildroot} $CMAKE -DCOMPONENT=$daemon -P cmake_install.cmake
-done
+#DAEMONS="clickhouse clickhouse-test clickhouse-compressor clickhouse-client clickhouse-server"
+#for daemon in $DAEMONS; do
+	#DESTDIR=%{buildroot} $CMAKE -DCOMPONENT=$daemon -P cmake_install.cmake
+#done
 cd ..
 
 # Create folders structure to be distributed
 # %{buildroot} = rpmbuild/BUILDROOT/clickhouse-18.14.15-1.el7.x86_64
-mkdir -p %{buildroot}/etc/clickhouse-server
-mkdir -p %{buildroot}/etc/clickhouse-client
-mkdir -p %{buildroot}/etc/init.d
-mkdir -p %{buildroot}/etc/cron.d
-mkdir -p %{buildroot}/etc/security/limits.d
+#mkdir -p %{buildroot}/etc/clickhouse-server
+#mkdir -p %{buildroot}/etc/clickhouse-client
+#mkdir -p %{buildroot}/etc/init.d
+#mkdir -p %{buildroot}/etc/cron.d
+#mkdir -p %{buildroot}/etc/security/limits.d
 
-mkdir -p %{buildroot}/usr/bin
-mkdir -p %{buildroot}/usr/share/clickhouse/bin
-mkdir -p %{buildroot}/usr/share/clickhouse/headers
+#mkdir -p %{buildroot}/usr/bin
+#mkdir -p %{buildroot}/usr/share/clickhouse/bin
+#mkdir -p %{buildroot}/usr/share/clickhouse/headers
 
 # Copy files from source into folders structure for distribution
 # BUILDDIR = rpmbuild/BUILD
-cp "${BUILD_DIR}"/ClickHouse-%{version}-@CH_TAG@/debian/clickhouse-server.init   %{buildroot}/etc/init.d/clickhouse-server
-cp "${BUILD_DIR}"/ClickHouse-%{version}-@CH_TAG@/debian/clickhouse-server.cron.d %{buildroot}/etc/cron.d/clickhouse-server
-cp "${BUILD_DIR}"/ClickHouse-%{version}-@CH_TAG@/debian/clickhouse.limits        %{buildroot}/etc/security/limits.d/clickhouse.conf
+#cp "${BUILD_DIR}"/ClickHouse-%{version}-@CH_TAG@/debian/clickhouse-server.init   %{buildroot}/etc/init.d/clickhouse-server
+#cp "${BUILD_DIR}"/ClickHouse-%{version}-@CH_TAG@/debian/clickhouse-server.cron.d %{buildroot}/etc/cron.d/clickhouse-server
+#cp "${BUILD_DIR}"/ClickHouse-%{version}-@CH_TAG@/debian/clickhouse.limits        %{buildroot}/etc/security/limits.d/clickhouse.conf
 ## 19.x cp "${BUILD_DIR}"/ClickHouse-%{version}-@CH_TAG@/dbms/programs/server/config.xml %{buildroot}/etc/clickhouse-server/
 ## 19.x cp "${BUILD_DIR}"/ClickHouse-%{version}-@CH_TAG@/dbms/programs/server/users.xml  %{buildroot}/etc/clickhouse-server/
 ## 20.x
-cp "${BUILD_DIR}"/ClickHouse-%{version}-@CH_TAG@/programs/server/config.xml %{buildroot}/etc/clickhouse-server/
-cp "${BUILD_DIR}"/ClickHouse-%{version}-@CH_TAG@/programs/server/users.xml  %{buildroot}/etc/clickhouse-server/
+#cp "${BUILD_DIR}"/ClickHouse-%{version}-@CH_TAG@/programs/server/config.xml %{buildroot}/etc/clickhouse-server/
+#cp "${BUILD_DIR}"/ClickHouse-%{version}-@CH_TAG@/programs/server/users.xml  %{buildroot}/etc/clickhouse-server/
 
 echo "'install' completed."
 #read -p "'install' completed. Press enter to continue"
