@@ -303,13 +303,15 @@ chown -R ${CLICKHOUSE_USER}:${CLICKHOUSE_GROUP} /etc/clickhouse-client || true
 ##
 
 %files server
-/usr/bin/clickhouse-server
+/usr/local/bin/clickhouse
+#/usr/local/bin/clickhouse-server
 #/usr/bin/clickhouse-clang # https://github.com/ClickHouse/ClickHouse/pull/6646
 #/usr/bin/clickhouse-lld
-/usr/bin/clickhouse-copier
-/usr/bin/clickhouse-odbc-bridge
-/usr/bin/clickhouse-report
-/usr/bin/clickhouse-obfuscator
+#/usr/bin/clickhouse-copier
+#/usr/bin/clickhouse-odbc-bridge
+/usr/bin/local/clickhouse-report
+#/usr/bin/clickhouse-obfuscator
+/usr/bin/local/clickhouse-test
 # TODO
 #/etc/systemd/system/clickhouse-server.service
 /etc/init.d/clickhouse-server
@@ -318,7 +320,7 @@ chown -R ${CLICKHOUSE_USER}:${CLICKHOUSE_GROUP} /etc/clickhouse-client || true
 /usr/share/clickhouse
 %config(noreplace) /etc/security/limits.d/clickhouse.conf
 # append file that seems to be obsoleted
-/usr/bin/clickhouse-format
+#/usr/bin/clickhouse-format
 
 %post server
 if [ $1 = 1 ]; then
@@ -372,8 +374,8 @@ fi
 ##
 
 %files test
-/usr/bin/clickhouse-test
-/usr/bin/clickhouse-test-server
+/usr/local/bin/clickhouse-test
+#/usr/bin/clickhouse-test-server
 #/usr/bin/clickhouse-performance-test
 # folder
 /usr/share/clickhouse-test
