@@ -183,10 +183,10 @@ echo "********"
 echo "* MAKE *"
 echo "********"
 
-export CC=clang-12
-export CXX=clang++
-cmake -DCMAKE_BUILD_TYPE="Release" ../
-ninja clickhouse
+##export CC=clang-12
+##export CXX=clang++
+##cmake -DCMAKE_BUILD_TYPE="Release" ../
+##ninja clickhouse
 
 cd ..
 
