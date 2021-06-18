@@ -175,18 +175,18 @@ cd "${BUILD_DIR}"
 cd ClickHouse-%{version}-@CH_TAG@
 
 # Clear build folder, but keep 'rpmbuild' subfolder in it (if exists)
-mkdir -p build
+#mkdir -p build
 cd build
-ls | grep -v 'rpmbuild' | xargs rm -rf
+#ls | grep -v 'rpmbuild' | xargs rm -rf
 
 echo "********"
 echo "* MAKE *"
 echo "********"
 
-export CC=clang-12
-export CXX=clang++
-cmake -DCMAKE_BUILD_TYPE="Release" ../
-ninja clickhouse
+#export CC=clang-12
+#export CXX=clang++
+#cmake -DCMAKE_BUILD_TYPE="Release" ../
+#ninja clickhouse
 
 cd ..
 
